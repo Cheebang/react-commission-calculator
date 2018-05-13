@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import {
@@ -19,6 +20,13 @@ export const CommissionCalculatorContainer = props => {
       <div>Commission: {commission}</div>
     </form>
   );
+};
+
+CommissionCalculatorContainer.propTypes = {
+  commission: PropTypes.number,
+  setActualAction: PropTypes.func.isRequired,
+  setTargetAction: PropTypes.func.isRequired,
+  setMotcAction: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {

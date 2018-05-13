@@ -14,30 +14,34 @@ export default function reducer(state = {}, action) {
   }
 }
 
-const ranges = [
+export const ranges = [
   { from: 0, to: 0.8, base: 0, rate: 0 },
   { from: 0.8, to: 1, base: 0.8, rate: 1 },
   { from: 1, to: 2, base: 1, rate: 1.5 },
   { from: 2, to: 3, base: 2.5, rate: 0.5 },
-  { from: 3, to: 99.99, base: 3, rate: 0 }
+  { from: 3, to: 100, base: 3, rate: 0 }
 ];
+
+export const getMatchingRange = achievement => {
+  const matchingRange = ranges.filter(
+    range => achievement >= range.from && achievement < range.to
+  );
+
+  return matchingRange.length ? matchingRange[0] : ranges[0];
+};
 
 export const getCommission = state => {
   const { actual, target, motc } = state.commissionCalculatorReducer;
   if (!actual || !target || !motc) {
     return 0;
   }
-  const achievement = actual / target;
 
-  const matchingRange = ranges.filter(
-    range => achievement >= range.from && achievement < range.to
-  );
-
-  if (!matchingRange.length) {
-    return 0;
+  let achievement = actual / target;
+  if (achievement > 99.99) {
+    achievement = 99.99;
   }
+  const { from, base, rate } = getMatchingRange(achievement);
 
-  const { from, base, rate } = matchingRange[0];
   const commissionRate = base + (achievement - from) * rate;
   return motc * commissionRate;
 };

@@ -1,9 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
+import React from "react";
+import { shallow } from "enzyme";
 
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<App />, div);
-  ReactDOM.unmountComponentAtNode(div);
+import App from "./App";
+import CommissionCalculatorContainer from "./commission-calculator/CommissionCalculatorContainer";
+
+describe("Top level app component", () => {
+  it("render the App component", () => {
+    const wrapper = shallow(<App />);
+    expect(wrapper.find(CommissionCalculatorContainer).length).toBe(1);
+  });
 });
