@@ -23,10 +23,7 @@ export const ranges = [
 ];
 
 export const getMatchingRange = achievement => {
-  const matchingRange = ranges.filter(
-    range => achievement >= range.from && achievement < range.to
-  );
-
+  const matchingRange = ranges.filter(range => achievement >= range.from && achievement < range.to);
   return matchingRange.length ? matchingRange[0] : ranges[0];
 };
 
@@ -44,4 +41,19 @@ export const getCommission = state => {
 
   const commissionRate = base + (achievement - from) * rate;
   return motc * commissionRate;
+};
+
+export const getActualValidationState = state => {
+  const { actual } = state.commissionCalculatorReducer;
+  return actual !== "" && actual >= 0 ? "success" : "error";
+};
+
+export const getTargetValidationState = state => {
+  const { target } = state.commissionCalculatorReducer;
+  return target && target > 0 ? "success" : "error";
+};
+
+export const getMotcValidationState = state => {
+  const { motc } = state.commissionCalculatorReducer;
+  return motc && motc > 0 && motc <= 10000 ? "success" : "error";
 };
